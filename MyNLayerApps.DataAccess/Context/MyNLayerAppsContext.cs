@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using MyNLayerApps.Entity.Entity;
 
 namespace MyNLayerApps.DataAccess.Context;
 
@@ -12,7 +13,8 @@ public class MyNLayerAppsContext: DbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(MyNLayerAppsContext).Assembly);
         base.OnModelCreating(modelBuilder);
     }
+    DbSet<Department> Departments { get; set; }
 }
