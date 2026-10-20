@@ -1,0 +1,13 @@
+﻿
+
+using MyNLayerApps.Entity.Entity.Common;
+
+namespace MyNLayerApps.Entity.Entity;
+
+public class Department:AuditEntity
+{
+    public string Name { get; set; }=null!;
+    public string? Description { get; set; }
+    public string? Location { get; set; }    
+    public int Limit { get; set; }
+}

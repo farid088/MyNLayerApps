@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="MyNLayerApps.Buisness/MyNLayerApps.Buisness.csproj" Id="0e51e285-c015-4f62-979f-c12a0a867af1" />
+    <Project Path="MyNLayerApps.DataAccess/MyNLayerApps.DataAccess.csproj" Id="e35f9d94-b896-4bbc-8a40-278cd57724ab" />
+    <Project Path="MyNLayerApps.Entity/MyNLayerApps.Entity.csproj" Id="2c5105e3-d020-4ed3-9b22-d60ac9a9bf9e" />
+    <Project Path="MyNLayerApps.Presentation/MyNLayerApps.Presentation.csproj" />
+  </Folder>
+</Solution>

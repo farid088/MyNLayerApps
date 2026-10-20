@@ -1,0 +1,52 @@
+## Visual Studio / .NET / C# üçün standart .gitignore
+
+# Build və çıxış faylları
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+[Tt]emp/
+[Gg]enerated/
+
+# User-specific fayllar (İstifadəçi xüsusi tənzimləmələri)
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio gedişat və keş qovluqları
+.vs/
+.idea/
+*.userprefs
+
+# NuGet Paketləri və bərpa faylları
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+project.lock.json
+project.assets.json
+
+# Entity Framework Core və məlumat bazası faylları
+*.mdf
+*.ldf
+*.db
+*.sqlite
+appsettings.Development.json
+appsettings.Local.json
+
+# Test və Code Coverage nəticələri
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.coverage
+*.coveragexml
+
+# Publish (Nəşr) qovluqları
+publish/
+bin/Debug/net*/publish/
+bin/Release/net*/publish/
+
+# Əməliyyat sistemi tərəfindən yaradılan fayllar
+.DS_Store
+Thumbs.db
