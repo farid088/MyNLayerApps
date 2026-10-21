@@ -4,7 +4,7 @@ using MyNLayerApps.Entity.Entity;
 
 namespace MyNLayerApps.DataAccess.Context;
 
-public class MyNLayerAppsContext: DbContext
+public class MyNLayerAppsContext : DbContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -17,4 +17,8 @@ public class MyNLayerAppsContext: DbContext
         base.OnModelCreating(modelBuilder);
     }
     DbSet<Department> Departments { get; set; }
+    DbSet<Employee> Employees { get; set; }
+    DbSet<Project> Projects { get; set; }
+    DbSet<EmployeeProject> EmployeeProjects { get; set; }
+
 }

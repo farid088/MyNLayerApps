@@ -58,6 +58,154 @@ namespace MyNLayerApps.DataAccess.Migrations
 
                     b.ToTable("Departments", (string)null);
                 });
+
+            modelBuilder.Entity("MyNLayerApps.Entity.Entity.Employee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("EmployeeStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("HireDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("Employees", (string)null);
+                });
+
+            modelBuilder.Entity("MyNLayerApps.Entity.Entity.EmployeeProject", b =>
+                {
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EmployeeId", "ProjectId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("EmployeeProjects", (string)null);
+                });
+
+            modelBuilder.Entity("MyNLayerApps.Entity.Entity.Project", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Budget")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Projects", (string)null);
+                });
+
+            modelBuilder.Entity("MyNLayerApps.Entity.Entity.Employee", b =>
+                {
+                    b.HasOne("MyNLayerApps.Entity.Entity.Department", "Department")
+                        .WithMany("Employees")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("MyNLayerApps.Entity.Entity.EmployeeProject", b =>
+                {
+                    b.HasOne("MyNLayerApps.Entity.Entity.Employee", "Employee")
+                        .WithMany("EmployeeProjects")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyNLayerApps.Entity.Entity.Project", "Project")
+                        .WithMany("EmployeeProjects")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("MyNLayerApps.Entity.Entity.Department", b =>
+                {
+                    b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("MyNLayerApps.Entity.Entity.Employee", b =>
+                {
+                    b.Navigation("EmployeeProjects");
+                });
+
+            modelBuilder.Entity("MyNLayerApps.Entity.Entity.Project", b =>
+                {
+                    b.Navigation("EmployeeProjects");
+                });
 #pragma warning restore 612, 618
         }
     }
