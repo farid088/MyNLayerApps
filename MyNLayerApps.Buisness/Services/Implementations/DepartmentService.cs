@@ -3,15 +3,20 @@ using MyNLayerApps.Entity.Entity;
 using Microsoft.EntityFrameworkCore;
 using MyNLayerApps.Buisness.Services.Interfaces;
 using MyNLayerApps.Buisness.Dtos;
+using MyNLayerApps.Buisness.Mappers;
 namespace MyNLayerApps.Buisness.Services.Implementations;
 
 public class DepartmentService : IDepartmentService
 {
     private readonly MyNLayerAppsContext _context;
     public DepartmentService(MyNLayerAppsContext context) => _context = context;
-    public async Task<List<Department>> GetAllDepartmentsAsync() => await _context.Departments.ToListAsync();
+    public async Task<List<DepartmentReturnDto>> GetAllDepartmentsAsync() =>
+        await _context.Departments
+        .AsNoTracking()
+        .Select(d => MapperProfile.DepartmentToDepartmentReturnDto(d))
+        .ToListAsync();
 
-    public async Task<Department?> GetDepartmentByIdAsync(int id)
+    public async Task<DepartmentReturnDto> GetDepartmentByIdAsync(int id)
     {
         if (id <= 0)
         {
@@ -22,7 +27,9 @@ public class DepartmentService : IDepartmentService
         {
             throw new KeyNotFoundException($"Department with Id {id} not found.");
         }
-        return department;
+
+        var departmentReturnDto=MapperProfile.DepartmentToDepartmentReturnDto(department);
+        return departmentReturnDto;
     }
 
     public async Task<Department> CreateDepartmentAsync(DepartmentCreateDto department)
@@ -37,9 +44,16 @@ public class DepartmentService : IDepartmentService
         {
             throw new InvalidOperationException($"A department with the name '{department.Name}' already exists.");
         }
-        _context.Departments.AddAsync(DepartmentCreateDto);
+        var newDepartment = new Department
+        {
+            Name = department.Name,
+            Description = department.Description,
+            Location = department.Location,
+            Limit = department.Limit
+        };
+        _context.Departments?.AddAsync(newDepartment);
         await _context.SaveChangesAsync();
-        return DepartmentCreateDto;
+        return newDepartment;
     }
     public async Task<Department> UpdateDepartmentAsync(Department department)
     {
@@ -60,15 +74,9 @@ public class DepartmentService : IDepartmentService
     }
     public async Task DeleteDepartmentAsync(int id)
     {
-        if (id <= 0)
-        {
-            throw new ArgumentException("Id must be greater than zero.", nameof(id));
-        }
-        var department = await _context.Departments.FindAsync(id);
-        if (department == null)
-        {
-            throw new KeyNotFoundException($"Department with Id {id} not found.");
-        }
+     var departmentReturnDto = await GetDepartmentByIdAsync(id);
+        
+        var department = MapperProfile.DepartmentReturnDtoToDepartment(departmentReturnDto);
         _context.Departments.Remove(department);
         await _context.SaveChangesAsync();
     }
